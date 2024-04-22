@@ -96,4 +96,27 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 {
 //add your solution here!
 
+// Base case: Check if position (r, c) is out of bounds or if the current word is not a prefix
+    // of any word in the dictionary.
+
+    bool contains = dict.find(word) != dict.end();
+    if (r >= board.size() || c >= board[0].size() || !prefix.count(word)) {
+      if (contains) {
+        result.insert(word);
+      }
+      return contains;
+    }
+
+    // Append the character at (r, c) to the current word.
+    std::string nextWord = word + board[r][c];
+    bool foundWord = boggleHelper(dict, prefix, board, nextWord, result, r+dr, c+dc, dr, dc);
+    if (foundWord) {
+      return true;
+    }
+
+    if (contains) {
+      result.insert(word);
+    }
+
+    return contains;
 }
